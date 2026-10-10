@@ -1,0 +1,7 @@
+# Prettier also skips everything in .gitignore.
+node_modules
+bun.lock
+package-lock.json
+*.tgz
+dist
+coverage
