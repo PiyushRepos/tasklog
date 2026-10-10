@@ -86,11 +86,11 @@ tasklog --dir ~/work-log                 # use another folder for this run
 
 ## Configuration
 
-| What               | Where                                                                   |
-| ------------------ | ----------------------------------------------------------------------- |
-| Config file        | `$XDG_CONFIG_HOME/tasklog/config.json` (`%APPDATA%\tasklog` on Windows) |
-| Override location  | `TASKLOG_CONFIG_DIR=/path`                                              |
-| Turn off animation | `TASKLOG_REDUCED_MOTION=1` (or `NO_MOTION=1`)                           |
+| What               | Where                                                                                                                           |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------------- |
+| Config file        | `~/.config/tasklog/config.json` (or `$XDG_CONFIG_HOME/tasklog`, `%APPDATA%\tasklog` on Windows) — run `tasklog where` to see it |
+| Override location  | `TASKLOG_CONFIG_DIR=/path`                                                                                                      |
+| Turn off animation | `TASKLOG_REDUCED_MOTION=1` (or `NO_MOTION=1`)                                                                                   |
 
 ## Development
 
