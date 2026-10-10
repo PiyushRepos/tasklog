@@ -32,6 +32,14 @@
     "markdown"
   ],
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PiyushRepos/tasklog.git"
+  },
+  "homepage": "https://github.com/PiyushRepos/tasklog#readme",
+  "bugs": {
+    "url": "https://github.com/PiyushRepos/tasklog/issues"
+  },
   "dependencies": {
     "@opentui/core": "^0.5.17",
     "@opentui/react": "^0.5.17",
