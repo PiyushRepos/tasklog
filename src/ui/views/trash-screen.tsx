@@ -23,7 +23,7 @@ interface TrashScreenProps {
 
 /** Restore is one key. Delete forever needs the same key twice inside the confirm window. */
 export function TrashScreen({ onRestored, onBack }: TrashScreenProps) {
-  const { services, toast, clock } = useApp();
+  const { services, toast, clock, toggleTheme } = useApp();
   const { width, height } = useTerminalDimensions();
   const [items, setItems] = useState<TrashedTask[]>([]);
   const [index, setIndex] = useState(0);
@@ -97,8 +97,10 @@ export function TrashScreen({ onRestored, onBack }: TrashScreenProps) {
         ),
       );
     }
-    if (c === "r" || c === "R" || key.name === "return") return restore(); // footer shows "R"; accept either case
-    if (c === "D" || key.name === "delete") return purge();
+    if (c === "m") return toggleTheme();
+    // chips show keycaps: "R" means the r key, either case works
+    if (c === "r" || c === "R" || key.name === "return") return restore();
+    if (c === "d" || c === "D" || key.name === "delete") return purge();
   });
 
   const listHeight = Math.max(1, height - 6);
