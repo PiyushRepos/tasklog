@@ -1,6 +1,6 @@
 {
   "name": "@piyus/tasklog",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Keyboard-first daily task log for the terminal. Stores tasks as month/day markdown files.",
   "type": "module",
   "bin": {
