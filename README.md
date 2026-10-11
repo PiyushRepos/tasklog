@@ -19,8 +19,8 @@
 
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="./assets/screenshot-dark.png" />
-    <img alt="tasklog day view: stats row, days sidebar and today's tasks" src="./assets/screenshot-light.png" width="900" />
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/PiyushRepos/tasklog/main/assets/screenshot-dark.png" />
+    <img alt="tasklog day view: stats row, days sidebar and today's tasks" src="https://raw.githubusercontent.com/PiyushRepos/tasklog/main/assets/screenshot-light.png" width="900" />
   </picture>
 </p>
 
@@ -31,7 +31,8 @@
 - **Search everything** — words plus `2026`, `2026-10` or `2026-10-10` to narrow by date.
 - **Safe deletes** — a red bar gives you 1.2s to cancel, then tasks go to a trash you can restore from.
 - **Copy as markdown** — one task, a day, a month or a whole year, straight to your clipboard.
-- **Light & dark themes** — monochrome instrument-panel design, toggled with `m` or `ctrl+t` and remembered.
+- **Copy on select** — drag over any text with the mouse; it's copied when you let go.
+- **Five themes, plus yours** — dark, light, midnight, forest and sepia built in; add your own in `config.json`. Pick with `M`, flip back with `m`.
 - **Folder history** — move your data anywhere; every folder you've used is kept so nothing gets lost.
 
 ## Install
@@ -46,22 +47,24 @@ tasklog                      # then run it
 
 ## Keys
 
-| Key                   | Action                                                                   |
-| --------------------- | ------------------------------------------------------------------------ |
-| `a`                   | add a task (start with `9:30 pm` or `21:30` to set the time)             |
-| `e` / `enter`         | edit                                                                     |
-| `space`               | toggle done                                                              |
-| `d`                   | delete — `esc` cancels while the red bar runs, `d` again deletes now     |
-| `u`                   | undo the last delete                                                     |
-| `j` `k` / `↑` `↓`     | move                                                                     |
-| `tab` · `[` `]` · `t` | switch pane · previous / next day · today                                |
-| `/`                   | search                                                                   |
-| `y`                   | copy the selected task as markdown                                       |
-| `c` · `C` · `Y`       | copy day · month · year as markdown                                      |
-| `T`                   | trash — `r` restores (green bar, `esc` cancels), `D` `D` deletes forever |
-| `s`                   | settings — change the data folder, see every folder used before          |
-| `m` · `ctrl+t`        | toggle light / dark theme (`ctrl+t` works anywhere, even while typing)   |
-| `?` · `q`             | all keys · quit                                                          |
+| Key                   | Action                                                                     |
+| --------------------- | -------------------------------------------------------------------------- |
+| `a`                   | add a task (start with `9:30 pm` or `21:30` to set the time)               |
+| `e` / `enter`         | edit                                                                       |
+| `space`               | toggle done                                                                |
+| `d`                   | delete — `esc` cancels while the red bar runs, `d` again deletes now       |
+| `u`                   | undo the last delete                                                       |
+| `j` `k` / `↑` `↓`     | move                                                                       |
+| `tab` · `[` `]` · `t` | switch pane · previous / next day · today                                  |
+| `/`                   | search                                                                     |
+| `y`                   | copy the selected task as markdown                                         |
+| `c` · `C` · `Y`       | copy day · month · year as markdown                                        |
+| `T`                   | trash — `r` restores (green bar, `esc` cancels), `D` `D` deletes forever   |
+| `s`                   | settings — change the data folder, see every folder used before            |
+| `m` · `ctrl+t`        | switch to your previous theme (`ctrl+t` works anywhere, even while typing) |
+| `M`                   | theme picker — arrows preview, `enter` keeps                               |
+| `?` · `q`             | all keys · quit                                                            |
+| `ctrl+c`              | copy the mouse selection, or quit when nothing is selected                 |
 
 ## Storage
 
@@ -91,6 +94,62 @@ tasklog --dir ~/work-log                 # use another folder for this run
 | Config file        | `~/.config/tasklog/config.json` (or `$XDG_CONFIG_HOME/tasklog`, `%APPDATA%\tasklog` on Windows) — run `tasklog where` to see it |
 | Override location  | `TASKLOG_CONFIG_DIR=/path`                                                                                                      |
 | Turn off animation | `TASKLOG_REDUCED_MOTION=1` (or `NO_MOTION=1`)                                                                                   |
+
+## Themes
+
+Press `M` to open the picker: arrows preview live, `enter` keeps, `esc` puts yours back. `m` (or `ctrl+t`, even while typing) flips between your current and previous theme.
+
+| Theme      | Feel                                                         |
+| ---------- | ------------------------------------------------------------ |
+| `dark`     | default — monochrome instrument panel on soft black          |
+| `light`    | warm paper with soft ink, low glare                          |
+| `midnight` | cool blue-black, slate greys                                 |
+| `forest`   | deep green-black, sage greys                                 |
+| `sepia`    | aged paper and brown ink, easy on the eyes for long sessions |
+
+<table>
+  <tr>
+    <td><img alt="tasklog forest theme" src="https://raw.githubusercontent.com/PiyushRepos/tasklog/main/assets/screenshot-forest.png" /></td>
+    <td><img alt="tasklog sepia theme" src="https://raw.githubusercontent.com/PiyushRepos/tasklog/main/assets/screenshot-sepia.png" /></td>
+  </tr>
+  <tr>
+    <td align="center"><code>forest</code></td>
+    <td align="center"><code>sepia</code></td>
+  </tr>
+</table>
+
+### Your own theme
+
+Add it under `themes` in the config file, then pick it with `M`. Each theme starts from `dark` or `light` (`base`) and changes only the colors you list:
+
+```json
+{
+  "theme": "ocean",
+  "themes": {
+    "ocean": {
+      "base": "dark",
+      "bg": "#0b1622",
+      "surface": "#13212f",
+      "line": "#1e3042"
+    },
+    "rose": { "base": "light", "bg": "#fbf1f1", "text": "#3a1f24" }
+  }
+}
+```
+
+| Color      | Used for                           |
+| ---------- | ---------------------------------- |
+| `bg`       | background                         |
+| `surface`  | selected row                       |
+| `line`     | grid lines and dividers            |
+| `meterOff` | empty bars in the progress meter   |
+| `muted`    | times, counts, done tasks          |
+| `label`    | UPPERCASE labels                   |
+| `text`     | task text and numbers              |
+| `danger`   | delete bar and errors              |
+| `success`  | restore bar and the undo highlight |
+
+All as `#rrggbb`. Invalid values fall back to the base and the picker tells you which. Built-in names can't be overwritten, so picking one is always a clean reset. The picker re-reads the file each time it opens; no restart needed.
 
 ## Development
 
