@@ -3,6 +3,14 @@ import { toDayKey } from "../domain/task";
 
 /** Data path changes. Every path ever used stays in history so old tasks can always be found. */
 export class SettingsService {
+  /** Config writes are read-modify-write; run them one at a time so fast key presses can't lose an update. */
+  private queue: Promise<unknown> = Promise.resolve();
+  private serial<T>(fn: () => Promise<T>): Promise<T> {
+    const run = this.queue.then(fn, fn);
+    this.queue = run.catch(() => {});
+    return run;
+  }
+
   constructor(
     private readonly store: ConfigStore,
     private readonly clock: Clock,
@@ -16,7 +24,11 @@ export class SettingsService {
     return this.store.load();
   }
 
-  async changeDataDir(path: string): Promise<Config> {
+  changeDataDir(path: string): Promise<Config> {
+    return this.serial(() => this.writeDataDir(path));
+  }
+
+  private async writeDataDir(path: string): Promise<Config> {
     if (!path.trim()) throw new Error("Path is empty");
     const next = this.store.normalize(path.trim());
     const config = await this.store.load();
@@ -36,7 +48,11 @@ export class SettingsService {
   }
 
   /** Picks a theme; the one it replaces becomes what the quick toggle returns to. */
-  async setTheme(theme: string): Promise<Config> {
+  setTheme(theme: string): Promise<Config> {
+    return this.serial(() => this.writeTheme(theme));
+  }
+
+  private async writeTheme(theme: string): Promise<Config> {
     const config = await this.store.load();
     const current = config.theme ?? "dark";
     if (theme === current) return config;
@@ -46,16 +62,18 @@ export class SettingsService {
   }
 
   /** Swaps the current and previous theme (dark ↔ light until the user picks others). */
-  async toggleTheme(): Promise<Config> {
-    const config = await this.store.load();
-    const current = config.theme ?? "dark";
-    const previous = config.previousTheme;
-    return this.setTheme(
-      previous && previous !== current
-        ? previous
-        : current === "light"
-          ? "dark"
-          : "light",
-    );
+  toggleTheme(): Promise<Config> {
+    return this.serial(async () => {
+      const config = await this.store.load();
+      const current = config.theme ?? "dark";
+      const previous = config.previousTheme;
+      return this.writeTheme(
+        previous && previous !== current
+          ? previous
+          : current === "light"
+            ? "dark"
+            : "light",
+      );
+    });
   }
 }

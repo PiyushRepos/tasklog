@@ -36,10 +36,10 @@ export function ThemeScreen({ onBack }: { onBack(): void }) {
       .catch((e: Error) => toast(e.message, "danger"));
   }, []);
 
-  const names = themeNames(config?.themes);
+  const names = config ? themeNames(config.themes) : []; // empty until loaded, so keys can't race the load
   const saved = config?.theme ?? "dark";
   const selected = clamp(index, 0, names.length - 1);
-  const nameWidth = Math.max(...names.map((n) => n.length)) + 2;
+  const nameWidth = Math.max(0, ...names.map((n) => n.length)) + 2;
 
   useKeyboard((key) => {
     if (!config) return;

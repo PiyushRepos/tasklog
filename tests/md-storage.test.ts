@@ -85,3 +85,12 @@ test("toggle swaps between the picked theme and the one before it", async () => 
   expect((await settings.toggleTheme()).theme).toBe("light");
   expect((await settings.toggleTheme()).theme).toBe("sepia");
 });
+
+test("two toggles at once both land (no lost update)", async () => {
+  const settings = createSettingsService(
+    new JsonConfigStore(tmp(), fixedClock()),
+    fixedClock(),
+  );
+  await Promise.all([settings.toggleTheme(), settings.toggleTheme()]);
+  expect((await settings.load()).theme).toBe("dark");
+});
