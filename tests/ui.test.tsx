@@ -120,6 +120,27 @@ test("type a task, toggle it, delete and undo", async () => {
     await frame("MATCH · 1 DAY");
     keys.pressEnter();
     await frame("■ TASKS");
+
+    // Mouse-selecting text copies it on release, like a terminal would.
+    const row = setup
+      .captureCharFrame()
+      .split("\n")
+      .findIndex((l) => l.includes("Tea"));
+    const col = setup.captureCharFrame().split("\n")[row]!.indexOf("Tea");
+    await setup.mockMouse.drag(col, row, col + 3, row);
+    await frame("Copied selection");
+    expect(copied.at(-1)).toBe("Tea");
+
+    // Theme picker: arrows preview, enter saves.
+    await keys.typeText("M");
+    await frame("✓ in use");
+    keys.pressArrow("down");
+    await frame("#f6f5f1"); // light palette previewed
+    keys.pressEnter();
+    await frame("■ TASKS");
+    expect(readFileSync(join(dir, ".cfg", "config.json"), "utf8")).toContain(
+      '"theme": "light"',
+    );
   } finally {
     setup.renderer.destroy();
   }

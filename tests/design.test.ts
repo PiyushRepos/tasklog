@@ -3,6 +3,11 @@ import { lineStops, resolveWidths, rule } from "../src/ui/design/grid";
 import { chipsWidth } from "../src/ui/design/key-chip";
 import { meterFill } from "../src/ui/design/meter";
 import { easeOut, mix } from "../src/ui/design/motion";
+import {
+  builtinThemes,
+  resolveTheme,
+  themeNames,
+} from "../src/ui/design/tokens";
 
 test("widths fill the row exactly", () => {
   expect(resolveWidths(100, [24, undefined, 26])).toEqual([24, 50, 26]);
@@ -37,4 +42,26 @@ test("motion helpers", () => {
       ["/", "search"],
     ]),
   ).toBe(" A  add".length + 3 + " /  search".length);
+});
+
+test("custom themes extend a base; bad values fall back and are reported", () => {
+  const themes = {
+    paper: { base: "light", bg: "#f4ecd8", text: "nope", glow: "#ffffff" },
+    dark: { bg: "#ff0000" }, // built-ins can't be overridden
+  };
+  const { palette, warnings } = resolveTheme("paper", themes);
+  expect(palette.bg).toBe("#f4ecd8");
+  expect(palette.text).toBe(builtinThemes.light!.text);
+  expect(warnings).toHaveLength(2);
+  expect(resolveTheme("dark", themes).palette).toEqual(builtinThemes.dark!);
+  expect(resolveTheme("missing").warnings[0]).toContain("not found");
+  expect(themeNames({ ...themes, sepia: {}, ocean: {} })).toEqual([
+    "dark",
+    "light",
+    "midnight",
+    "forest",
+    "sepia",
+    "paper",
+    "ocean",
+  ]);
 });

@@ -48,8 +48,13 @@ export class JsonConfigStore implements ConfigStore {
       dataDir: expandPath(parsed.dataDir),
       dataDirSince: parsed.dataDirSince ?? toDayKey(this.clock.now()),
       history: Array.isArray(parsed.history) ? parsed.history : [],
-      ...(parsed.theme === "light" || parsed.theme === "dark"
-        ? { theme: parsed.theme }
+      // Kept as written (not sanitised) so saving never drops the user's theme edits.
+      ...(typeof parsed.theme === "string" ? { theme: parsed.theme } : {}),
+      ...(typeof parsed.previousTheme === "string"
+        ? { previousTheme: parsed.previousTheme }
+        : {}),
+      ...(parsed.themes && typeof parsed.themes === "object"
+        ? { themes: parsed.themes }
         : {}),
     };
   }

@@ -11,7 +11,7 @@ import {
 import { expandPath, tildify } from "../infrastructure/fs/files";
 import { systemClock } from "../infrastructure/system-clock";
 import { App } from "../ui/app";
-import { applyTheme, color } from "../ui/design/tokens";
+import { applyTheme, color, resolveTheme } from "../ui/design/tokens";
 import { HELP, runCommand } from "./commands";
 import { createDataServices, createSettingsService } from "./container";
 
@@ -45,10 +45,10 @@ async function main() {
       "tasklog needs an interactive terminal. Use `tasklog add` or `tasklog export` in scripts.",
     );
 
-  applyTheme(config.theme ?? "dark");
+  applyTheme(resolveTheme(config.theme ?? "dark", config.themes).palette);
   let clipboard: OpenTuiClipboard | undefined;
   const renderer = await createCliRenderer({
-    exitOnCtrlC: true,
+    exitOnCtrlC: false, // the app handles ctrl+c: copy selection, else quit
     screenMode: "alternate-screen",
     backgroundColor: color.bg,
     useMouse: true,

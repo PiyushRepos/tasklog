@@ -241,6 +241,7 @@ export function DayScreen({
     if (c === "?") return onOpen("help");
     if (c === "u") return undo();
     if (c === "m") return app.toggleTheme();
+    if (c === "M") return onOpen("theme");
     if (c === "c") return copy("day", day).catch(fail);
     if (c === "C") return copy("month", day).catch(fail);
     if (c === "Y") return copy("year", day).catch(fail);

@@ -35,7 +35,27 @@ export class SettingsService {
     return updated;
   }
 
-  async setTheme(theme: NonNullable<Config["theme"]>): Promise<void> {
-    await this.store.save({ ...(await this.store.load()), theme });
+  /** Picks a theme; the one it replaces becomes what the quick toggle returns to. */
+  async setTheme(theme: string): Promise<Config> {
+    const config = await this.store.load();
+    const current = config.theme ?? "dark";
+    if (theme === current) return config;
+    const updated = { ...config, theme, previousTheme: current };
+    await this.store.save(updated);
+    return updated;
+  }
+
+  /** Swaps the current and previous theme (dark ↔ light until the user picks others). */
+  async toggleTheme(): Promise<Config> {
+    const config = await this.store.load();
+    const current = config.theme ?? "dark";
+    const previous = config.previousTheme;
+    return this.setTheme(
+      previous && previous !== current
+        ? previous
+        : current === "light"
+          ? "dark"
+          : "light",
+    );
   }
 }

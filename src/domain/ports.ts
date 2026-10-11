@@ -27,7 +27,12 @@ export interface Config {
   dataDir: string;
   dataDirSince: string;
   history: PathHistoryEntry[];
-  theme?: "dark" | "light";
+  /** Active theme: "dark", "light" or a name from `themes`. */
+  theme?: string;
+  /** What the quick toggle (m / ctrl+t) switches back to. */
+  previousTheme?: string;
+  /** User themes: { name: { base?: "dark" | "light", bg?: "#rrggbb", … } }. Validated by the UI. */
+  themes?: Record<string, unknown>;
 }
 
 export interface ConfigStore {

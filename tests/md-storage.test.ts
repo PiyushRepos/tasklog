@@ -74,3 +74,14 @@ test("theme is saved and survives a data dir change", async () => {
   await settings.changeDataDir("/tmp/elsewhere");
   expect((await settings.load()).theme).toBe("light");
 });
+
+test("toggle swaps between the picked theme and the one before it", async () => {
+  const settings = createSettingsService(
+    new JsonConfigStore(tmp(), fixedClock()),
+    fixedClock(),
+  );
+  expect((await settings.toggleTheme()).theme).toBe("light"); // default dark → light
+  await settings.setTheme("sepia");
+  expect((await settings.toggleTheme()).theme).toBe("light");
+  expect((await settings.toggleTheme()).theme).toBe("sepia");
+});

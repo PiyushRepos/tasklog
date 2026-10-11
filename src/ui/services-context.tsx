@@ -4,7 +4,7 @@ import type { SearchService } from "../application/search-service";
 import type { SettingsService } from "../application/settings-service";
 import type { TaskService } from "../application/task-service";
 import type { Clipboard, Clock, Config } from "../domain/ports";
-import type { ThemeName, Tone } from "./design/tokens";
+import type { Tone } from "./design/tokens";
 import type { Toast } from "./hooks/use-toast";
 
 /** Use cases bound to one data folder. Replaced as a whole when the folder changes. */
@@ -24,8 +24,14 @@ export interface AppContextValue {
   toast(text: string, tone?: Tone): void;
   currentToast: Toast | null;
   quit(): void;
-  theme: ThemeName;
+  /** Name of the active theme. */
+  theme: string;
+  /** Quick switch between the current and previous theme. */
   toggleTheme(): void;
+  /** Saves `name` as the theme (from the picker). */
+  chooseTheme(name: string): Promise<void>;
+  /** Paints `name` without saving; returns problems found in its config. */
+  previewTheme(name: string, themes?: Config["themes"]): string[];
   /** Absolute path → "~/…" for display. */
   displayPath(path: string): string;
 }

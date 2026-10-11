@@ -40,7 +40,8 @@ const SECTIONS: Section[] = [
     [
       ["⇧T", "trash"],
       ["S", "settings · folder history"],
-      ["M  ^T", "light / dark theme"],
+      ["M  ^T", "switch to last theme"],
+      ["⇧M", "choose theme"],
       ["?", "this help"],
       ["Q  ^C", "quit"],
     ],
