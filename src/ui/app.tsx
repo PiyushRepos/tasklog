@@ -1,4 +1,4 @@
-import { useRenderer } from "@opentui/react";
+import { useKeyboard, useRenderer } from "@opentui/react";
 import { useCallback, useMemo, useState } from "react";
 import type { SettingsService } from "../application/settings-service";
 import type { Clipboard, Clock } from "../domain/ports";
@@ -58,6 +58,8 @@ export function App({
     setTheme(next);
     settings.setTheme(next).catch((e: Error) => toast(e.message, "danger"));
   }, [theme, renderer, settings, toast]);
+  // ctrl+t works on every screen, even while typing; plain `m` only where no input is open
+  useKeyboard((key) => key.ctrl && key.name === "t" && toggleTheme());
 
   const switchDataDir = useCallback(
     async (path: string) => {

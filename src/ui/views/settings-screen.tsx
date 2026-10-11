@@ -19,7 +19,7 @@ import { useApp } from "../services-context";
 
 /** Data folder, config location and every folder used before. */
 export function SettingsScreen({ onBack }: { onBack(): void }) {
-  const { settings, switchDataDir, toast, displayPath } = useApp();
+  const { settings, switchDataDir, toast, displayPath, toggleTheme } = useApp();
   const { width } = useTerminalDimensions();
   const [config, setConfig] = useState<Config | null>(null);
   const [editing, setEditing] = useState(false);
@@ -55,6 +55,7 @@ export function SettingsScreen({ onBack }: { onBack(): void }) {
     const c = char(key);
     if (key.name === "escape" || c === "q" || c === "s") return onBack();
     if (c === "e" || c === "c") return setEditing(true);
+    if (c === "m") return toggleTheme();
     if (isUp(key) || isDown(key))
       return setIndex(
         clamp(

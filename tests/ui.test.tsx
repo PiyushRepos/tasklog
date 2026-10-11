@@ -55,6 +55,13 @@ test("type a task, toggle it, delete and undo", async () => {
   try {
     // Launch lands in add mode on today: typing works immediately.
     await frame("What are you working on?");
+    // ctrl+t switches theme even while typing, and doesn't type a "t"
+    keys.pressKey("t", { ctrl: true });
+    await Bun.sleep(50);
+    expect(readFileSync(join(dir, ".cfg", "config.json"), "utf8")).toContain(
+      '"theme": "light"',
+    );
+    keys.pressKey("t", { ctrl: true }); // back to dark for the rest of the test
     await keys.typeText("09:05 Write the plan");
     keys.pressEnter();
     await frame("□ 9:05 AM Write the plan");

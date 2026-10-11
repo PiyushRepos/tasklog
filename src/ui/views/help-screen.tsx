@@ -1,5 +1,7 @@
 import { useKeyboard, useTerminalDimensions } from "@opentui/react";
 import { color, Grid, Label, StatusLine } from "../design";
+import { char } from "../hooks/keys";
+import { useApp } from "../services-context";
 
 type Section = [title: string, keys: Array<[string, string]>];
 
@@ -38,7 +40,7 @@ const SECTIONS: Section[] = [
     [
       ["⇧T", "trash"],
       ["S", "settings · folder history"],
-      ["M", "light / dark theme"],
+      ["M  ^T", "light / dark theme"],
       ["?", "this help"],
       ["Q  ^C", "quit"],
     ],
@@ -61,7 +63,8 @@ function SectionCell({ section: [title, keys] }: { section: Section }) {
 
 export function HelpScreen({ onBack }: { onBack(): void }) {
   const { width } = useTerminalDimensions();
-  useKeyboard(() => onBack());
+  const { toggleTheme } = useApp();
+  useKeyboard((key) => (char(key) === "m" ? toggleTheme() : onBack()));
   return (
     <Grid
       width={width}
@@ -86,7 +89,14 @@ export function HelpScreen({ onBack }: { onBack(): void }) {
           cells: [
             {
               key: "status",
-              content: <StatusLine hints={[["ANY KEY", "back"]]} />,
+              content: (
+                <StatusLine
+                  hints={[
+                    ["M", "theme"],
+                    ["ANY KEY", "back"],
+                  ]}
+                />
+              ),
             },
           ],
         },

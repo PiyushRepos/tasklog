@@ -31,7 +31,7 @@
 - **Search everything** — words plus `2026`, `2026-10` or `2026-10-10` to narrow by date.
 - **Safe deletes** — a red bar gives you 1.2s to cancel, then tasks go to a trash you can restore from.
 - **Copy as markdown** — one task, a day, a month or a whole year, straight to your clipboard.
-- **Light & dark themes** — monochrome instrument-panel design, toggled with `m` and remembered.
+- **Light & dark themes** — monochrome instrument-panel design, toggled with `m` or `ctrl+t` and remembered.
 - **Folder history** — move your data anywhere; every folder you've used is kept so nothing gets lost.
 
 ## Install
@@ -60,7 +60,7 @@ tasklog                      # then run it
 | `c` · `C` · `Y`       | copy day · month · year as markdown                                      |
 | `T`                   | trash — `r` restores (green bar, `esc` cancels), `D` `D` deletes forever |
 | `s`                   | settings — change the data folder, see every folder used before          |
-| `m`                   | toggle light / dark theme                                                |
+| `m` · `ctrl+t`        | toggle light / dark theme (`ctrl+t` works anywhere, even while typing)   |
 | `?` · `q`             | all keys · quit                                                          |
 
 ## Storage
