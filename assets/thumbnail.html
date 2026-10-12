@@ -1,0 +1,182 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=IBM+Plex+Mono:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        width: 1200px;
+        height: 630px;
+        overflow: hidden;
+      }
+      body {
+        position: relative;
+        font-family: "IBM Plex Mono", monospace;
+        color: #f3ece2;
+        /* one warm sweep: charcoal into ember into orange, no pattern */
+        background: linear-gradient(
+          115deg,
+          #17120f 0%,
+          #241811 38%,
+          #7a2f12 66%,
+          #d9561a 86%,
+          #f2803a 100%
+        );
+      }
+      .stage {
+        position: absolute;
+        left: 560px;
+        top: 0;
+        width: 700px;
+        height: 630px;
+        perspective: 1600px;
+      }
+      .stack {
+        position: absolute;
+        inset: 0;
+        transform-style: preserve-3d;
+        transform: rotateX(12deg) rotateY(-20deg) rotateZ(4deg);
+      }
+      .shot {
+        position: absolute;
+        width: 580px;
+        border-radius: 6px;
+        outline: 2px solid #1b1714;
+      }
+      /* back cards melt into the background at their bottom edge; the front card stays solid */
+      .s2,
+      .s3,
+      .s4 {
+        mask-image: linear-gradient(to bottom, #000 3%, transparent 90%);
+      }
+      .s1 {
+        left: 20px;
+        top: 330px;
+        transform: translateZ(120px);
+      }
+      .s2 {
+        left: 100px;
+        top: 220px;
+        transform: translateZ(40px);
+      }
+      .s3 {
+        left: 180px;
+        top: 110px;
+        transform: translateZ(-40px);
+      }
+      .s4 {
+        left: 260px;
+        top: 4px;
+        transform: translateZ(-120px);
+      }
+
+      .copy {
+        position: absolute;
+        left: 92px;
+        top: 0;
+        bottom: 0;
+        width: 500px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      /* the badge is the app's own key chips */
+      .keys {
+        display: flex;
+        gap: 14px;
+        margin-bottom: 34px;
+        font: 700 14px/1 "IBM Plex Mono";
+        letter-spacing: 0.06em;
+        color: #c9bfb2;
+      }
+      .keys b {
+        display: inline-block;
+        background: #f3ece2;
+        color: #1b1714;
+        padding: 4px 7px;
+        margin-right: 7px;
+        border-radius: 2px;
+      }
+      h1 {
+        font: 800 30px/1 "IBM Plex Mono";
+        letter-spacing: -0.01em;
+        color: #f26b1d;
+        margin-bottom: 16px;
+      }
+      h2 {
+        font:
+          800 62px/1 "Bricolage Grotesque",
+          sans-serif;
+        letter-spacing: -0.035em;
+        color: #f3ece2;
+      }
+      h2 i {
+        font-style: normal;
+        color: #f26b1d;
+      }
+      .desc {
+        font: 500 17px/1.6 "IBM Plex Mono";
+        color: #a89c8e;
+        margin-top: 22px;
+        max-width: 440px;
+      }
+      .cmds {
+        margin-top: 30px;
+        display: grid;
+        grid-template-columns: auto auto;
+        gap: 12px 18px;
+        align-items: baseline;
+        justify-content: start;
+      }
+      .cmd {
+        font: 600 18px/1 "IBM Plex Mono";
+        color: #f3ece2;
+      }
+      .cmd span {
+        color: #f26b1d;
+      }
+      .note {
+        font: 500 13px/1 "IBM Plex Mono";
+        color: #8a7d70;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="stage">
+      <div class="stack">
+        <img class="shot s4" src="screenshot-sepia.png" />
+        <img class="shot s3" src="screenshot-light.png" />
+        <img class="shot s2" src="screenshot-forest.png" />
+        <img class="shot s1" src="screenshot-dark.png" />
+      </div>
+    </div>
+    <div class="copy">
+      <div class="keys">
+        <span><b>A</b>ADD</span><span><b>␣</b>DONE</span
+        ><span><b>/</b>FIND</span>
+      </div>
+      <h1>tasklog</h1>
+      <h2>Your day, written down <i>as you go.</i></h2>
+      <div class="desc">
+        A task log for the terminal. Every task is a line of markdown in a
+        folder you own.
+      </div>
+      <div class="cmds">
+        <div class="cmd"><span>❯</span> bunx @piyus/tasklog</div>
+        <div class="note">try once</div>
+        <div class="cmd"><span>❯</span> npm i -g @piyus/tasklog</div>
+        <div class="note">install</div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,8 +1,5 @@
 <p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://shieldcn.dev/header/grid.svg?title=tasklog&subtitle=Type+it.+Tick+it.+Find+it+later.&align=left&mode=dark" />
-    <img alt="tasklog — Type it. Tick it. Find it later." src="https://shieldcn.dev/header/grid.svg?title=tasklog&subtitle=Type+it.+Tick+it.+Find+it+later.&align=left&mode=light" />
-  </picture>
+  <img alt="tasklog: your day, written down as you go" src="https://raw.githubusercontent.com/PiyushRepos/tasklog/main/assets/thumbnail.png" width="900" />
 </p>
 
 <p align="center">
